@@ -51,6 +51,29 @@ class Rectangle {
   }
   
   boolean is_intersecting(Rectangle other) {
+    float this_left = this.xpos-this.rectwidth/2;
+    float this_right = this.xpos+this.rectwidth/2;
+    float this_top = this.ypos-this.rectheight/2;
+    float this_bottom = this.ypos-this.rectheight/2;
+    float other_left = other.xpos-other.rectwidth/2;
+    float other_right = other.xpos+other.rectwidth/2;
+    float other_top = other.ypos-other.rectheight/2;
+    float other_bottom = other.ypos+other.rectheight/2;
+    
+    if (((this_left <= other_left && this_right >= other_left) ||
+        (this_left <= other_right && this_right >= other_right)) &&
+        ((this_top >= other_top && this_bottom <= other_top) ||
+        (this_top >= other_bottom && this_bottom <= other_bottom))) {
+      return true;
+    }
+    
+    if (((other_left <= this_left && other_right >= this_left) ||
+        (other_left <= this_right && other_right >= this_right)) &&
+        ((other_top >= this_top && other_bottom <= this_top) ||
+        (other_top >= this_bottom && other_bottom <= this_bottom))) {
+      return true;
+    }
+    
     return false;
   }
 }
@@ -80,6 +103,11 @@ class Ball extends Rectangle {
     if (xpos > width - rectwidth/2 || xpos < 0 + rectwidth/2) {
       xspeed = xspeed * -1;
     }
+    
+    if (is_intersecting(paddle)) {
+      yspeed = yspeed * -1;
+      xspeed = xspeed * -1;
+    }
   }
 }
 
@@ -96,9 +124,10 @@ class Paddle extends Rectangle {
     if (keyCode==LEFT){
       xpos -=6;      
     }
+  }
   void moveRIGHT(){
     if (keyCode==RIGHT){
-      xpos -=6;      
+      xpos +=6;      
     }  
   }
 }
