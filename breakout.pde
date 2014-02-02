@@ -1,16 +1,31 @@
 Ball ball;
+Paddle paddle;
 
 void setup() {
   size(200,200);
   textSize(30);
   ball = new Ball(color(255, 0,0),5,100,2,2,10,10);
+  paddle = new Paddle(color(0,0,255),100, 180, 30, 10, 5);
 }
 
 void draw(){
   background(255);
   ball.display();
   ball.move(); 
+  paddle.display();
 }
+
+void keyPressed(){
+  if(key == CODED){
+    if (keyCode == LEFT){
+      paddle.moveLEFT();
+    }
+    if (keyCode == RIGHT){
+      paddle.moveRIGHT();
+    }
+  }
+}  
+
 
 class Rectangle {
   color c;
@@ -68,4 +83,22 @@ class Ball extends Rectangle {
   }
 }
 
+class Paddle extends Rectangle {
+  float xspeed;
 
+  Paddle(color tempC, float tempXpos, float tempYpos, float tempRectWidth, 
+         float tempRectHeight, float tempXspeed) {
+    super(tempC, tempXpos, tempYpos, tempRectWidth, tempRectHeight);
+    xspeed = tempXspeed;
+  }
+  
+  void moveLEFT(){
+    if (keyCode==LEFT){
+      xpos -=6;      
+    }
+  void moveRIGHT(){
+    if (keyCode==RIGHT){
+      xpos -=6;      
+    }  
+  }
+}
